@@ -8,8 +8,8 @@ answer = {}
 class subscriber(Node):
     def __init__(self, node_name):
         super().__init__(node_name)
-        self.count = 0
-        self.topics = 0
+        #self.count = 0
+        #self.topics = 0
 
     def subscribe(self, topic_name):
         self.topic_name = topic_name
@@ -24,14 +24,14 @@ class subscriber(Node):
             val = val
         else:
             val = "ERROR"
-        answer[self.topic_name] = val
-        
-        self.destroy_subscription(self.subscription)
 
-        if self.topics >= self.count:
-            for key, val in answer.items():
-                print(key, val)
-            rclpy.shutdown()
+        print(self.topic_name, val)
+        #answer[self.topic_name] = val
+        self.destroy_subscription(self.subscription)
+        #if self.topics >= self.count:
+            #for key, val in answer.items():
+            #    print(key, val)
+            #rclpy.shutdown()
 
 
 def main(args=None):
