@@ -18,6 +18,7 @@ class subscriber(Node):
             print(self.topic_name[8:], "ERROR")
 
         self.destroy_subscription(self.subscription)
+        self.destroy_node()
 
 
 def main(args=None):
