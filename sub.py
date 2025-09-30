@@ -7,7 +7,7 @@ class subscriber(Node):
     def __init__(self, topic_name):
         super().__init__(topic_name[8:])
         self.topic_name = topic_name
-        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 1)
+        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
