@@ -13,9 +13,9 @@ class subscriber(Node):
     def listener_callback(self, msg):
         val = msg.data
         if -1000 <= val and val <= 1000:
-            print(self.topic_name, val, "\n")
+            print(self.topic_name[8:], val, "\n")
         else:
-            print(self.topic_name, "ERROR\n")
+            print(self.topic_name[8:], "ERROR\n")
 
 
 def main(args=None):
