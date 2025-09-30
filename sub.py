@@ -13,24 +13,26 @@ class subscriber(Node):
     def listener_callback(self, msg):
         val = msg.data
         if -1000 <= val and val <= 1000:
-            print(self.topic_name[8:], val, "\n")
+            print(self.topic_name, val, "\n")
         else:
-            print(self.topic_name[8:], "ERROR\n")
+            print(self.topic_name, "ERROR\n")
 
 
 def main(args=None):
     rclpy.init(args=None)
-    node = rclpy.create_node('node')
 
-    topic_list = node.get_topic_names_and_types()
-    sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
+    node = rclpy.create_node('node')
+    sub = subscriber("/sensor/smoke_sensor")
+
+    #topic_list = node.get_topic_names_and_types()
+    #sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
     #for n in range(len(sensor_topics)):
      #   sensor_topics[n] = sensor_topics[n][8:]
 
-    for topic in sensor_topics:
-        obj = subscriber(topic[0])
+    #for topic in sensor_topics:
+        #obj = subscriber(topic[0]) 
 
-    rclpy.shutdown()
+    rclpy.spin()
 
 
 if __name__ == '__main__':
