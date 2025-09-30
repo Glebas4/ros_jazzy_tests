@@ -1,8 +1,10 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.wait_for_message import wait_for_message
 from std_msgs.msg import Int32
 
 answer = {}
+
 
 class subscriber(Node):
     def __init__(self, node_name):
@@ -11,21 +13,20 @@ class subscriber(Node):
         self.topics = 0
 
     def subscribe(self, topic_name):
-        self.topic_name = topic_name
-        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
-        self.subscription  # prevent unused variable warning
+        msg = wait_for_message(
+            Int32,
+            self,
+            topic_name,
+            qos_profile=rclpy.qos.qos_profile_sensor_data, # Or rclpy.qos.qos_profile_system_default, etc.
+            time_to_wait=0.2
+        )
 
-
-    def listener_callback(self, msg):
-        self.count += 1
         val = msg.data
         if -1000 <= val and val <= 1000:
             val = val
         else:
             val = "ERROR"
         answer[self.topic_name] = val
-        
-        self.destroy_subscription(self.subscription)
 
         if self.topics == self.count:
             for key, val in answer.items():
