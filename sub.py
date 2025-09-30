@@ -18,26 +18,25 @@ class subscriber(Node):
             print(self.topic_name[8:], "ERROR")
 
         self.destroy_subscription(self.subscription)
-        self.destroy_node()
 
 
 def main(args=None):
     rclpy.init(args=None)
 
-    node = rclpy.create_node('node')
+    sub = subscriber(topic)
+    rclpy.spin(sub)
     #sub = subscriber("/sensor/smoke_sensor")
 
-    topic_list = node.get_topic_names_and_types()
+    topic_list = sub.get_topic_names_and_types()
     sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
     #for n in range(len(sensor_topics)):
         #sensor_topics[n] = sensor_topics[n][8:]
 
     #print(sensor_topics)
-
     for topic in sensor_topics:
         print(topic)
         sub = subscriber(topic)
-        rclpy.spin(sub) 
+    
 
     #rclpy.spin(sub)
 
