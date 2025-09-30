@@ -7,7 +7,7 @@ class subscriber(Node):
     def __init__(self, topic_name):
         super().__init__(topic_name[8:])
         self.topic_name = topic_name
-        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
+        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 1)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
@@ -35,7 +35,9 @@ def main(args=None):
     #print(sensor_topics)
 
     for topic in sensor_topics:
-        sub = subscriber(topic) 
+        print(topic)
+        sub = subscriber(topic)
+        rclpy.spin(sub) 
 
     #rclpy.spin(sub)
 
