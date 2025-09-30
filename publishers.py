@@ -4,9 +4,9 @@ from std_msgs.msg import Float64
 
 
 class MinimalPublisher(Node):
-    def __init__(self, name, val):
-        super().__init__(name+"_node")
-        self.publisher_ = self.create_publisher(Float64, name, 10)
+    def __init__(self, name, topic, val):
+        super().__init__(name)
+        self.publisher_ = self.create_publisher(Float64, topic, 10)
         timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.val = val
@@ -21,9 +21,9 @@ class MinimalPublisher(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    pub_1 = MinimalPublisher("/sensor/smoke_sensor", 921)
-    pub_2 = MinimalPublisher("/sensor/light_sensor", 1232)
-    pub_3 = MinimalPublisher("/sensor/heat_sensor", -234)
+    pub_1 = MinimalPublisher("smoke", "/sensor/smoke_sensor", 921)
+    pub_2 = MinimalPublisher("light", "/sensor/light_sensor", 1232)
+    pub_3 = MinimalPublisher("heat", "/sensor/heat_sensor", -234)
 
     rclpy.spin(pub_1)
     rclpy.spin(pub_2)
