@@ -4,7 +4,6 @@ from std_msgs.msg import Int32
 
 answer = {}
 
-
 class subscriber(Node):
     def __init__(self, node_name):
         super().__init__(node_name)
@@ -28,7 +27,7 @@ class subscriber(Node):
         
         self.destroy_subscription(self.subscription)
 
-        if self.topics == self.count():
+        if self.topics == self.count:
             for key, val in answer.items():
                 print(key, val)
             rclpy.shutdown()
