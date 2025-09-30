@@ -18,14 +18,14 @@ class subscriber(Node):
 
 
     def listener_callback(self, msg):
-        self.count += 1
+        #self.count += 1
         val = msg.data
         if -1000 <= val and val <= 1000:
             val = val
         else:
             val = "ERROR"
 
-        print(self.topic_name, val)
+        print(self.topic_name[8:], val)
         #answer[self.topic_name] = val
         self.destroy_subscription(self.subscription)
         #if self.topics >= self.count:
