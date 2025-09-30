@@ -22,11 +22,10 @@ class subscriber(Node):
 
 def main(args=None):
     rclpy.init(args=None)
-
-    sub = subscriber(topic)
-    rclpy.spin(sub)
     #sub = subscriber("/sensor/smoke_sensor")
-
+    sub = subscriber("/rosout")
+    rclpy.spin(sub)
+    
     topic_list = sub.get_topic_names_and_types()
     sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
     #for n in range(len(sensor_topics)):
