@@ -5,7 +5,7 @@ from std_msgs.msg import Int32
 
 class subscriber(Node):
     def __init__(self, topic_name):
-        super().__init__(topic_name)
+        super().__init__("subscriber_node")
         self.topic_name = topic_name
         self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
         self.subscription  # prevent unused variable warning
@@ -32,7 +32,7 @@ def main(args=None):
     #for topic in sensor_topics:
         #obj = subscriber(topic[0]) 
 
-    rclpy.spin()
+    rclpy.spin(sub)
 
 
 if __name__ == '__main__':
