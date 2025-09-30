@@ -31,10 +31,10 @@ def main(args=None):
     #for n in range(len(sensor_topics)):
         #sensor_topics[n] = sensor_topics[n][8:]
 
-    print(sensor_topics)
+    #print(sensor_topics)
 
-    #for topic in sensor_topics:
-        #obj = subscriber(topic[0]) 
+    for topic in sensor_topics:
+        sub = subscriber(topic) 
 
     #rclpy.spin(sub)
 
