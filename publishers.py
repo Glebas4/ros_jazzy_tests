@@ -1,18 +1,18 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32
+from std_msgs.msg import Int32
 
 
 class MinimalPublisher(Node):
     def __init__(self, name, topic, val):
         super().__init__(name)
-        self.publisher_ = self.create_publisher(Float32, topic, 10)
+        self.publisher_ = self.create_publisher(Int32, topic, 10)
         timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.val = val
 
     def timer_callback(self):
-        msg = Float32()
+        msg = Int32()
         msg.data = self.val
         self.publisher_.publish(msg)
         self.get_logger().info('Publishing: "%s"' % msg.data)
