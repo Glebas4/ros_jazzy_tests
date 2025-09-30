@@ -4,7 +4,7 @@ from std_msgs.msg import Int32
 
 
 class subscriber(Node):
-    def __init__(self, topic_name):
+    def __init__(self, node_name, topic_name):
         super().__init__(topic_name[8:])
         self.topic_name = topic_name
         self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
@@ -23,7 +23,7 @@ class subscriber(Node):
 def main(args=None):
     rclpy.init(args=None)
     #sub = subscriber("/sensor/smoke_sensor")
-    sub = subscriber("/rosout")
+    sub = subscriber("subs")
     rclpy.spin(sub)
     
     topic_list = sub.get_topic_names_and_types()
@@ -34,7 +34,7 @@ def main(args=None):
     #print(sensor_topics)
     for topic in sensor_topics:
         print(topic)
-        sub = subscriber(topic)
+        sub.topic_name = topic
     
 
     #rclpy.spin(sub)
