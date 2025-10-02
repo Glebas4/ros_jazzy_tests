@@ -21,7 +21,7 @@ class subscriber(Node):
             val = "ERROR"
 
         print(self.topic_name[8:], val)
-        rclpy.shutdown()
+        #rclpy.shutdown()
 
 
 def main(args=None):
@@ -38,6 +38,7 @@ def main(args=None):
         while sub.msg:
             pass
 
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
