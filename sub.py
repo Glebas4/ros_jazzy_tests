@@ -6,6 +6,7 @@ from std_msgs.msg import Int32
 class subscriber(Node):
     def __init__(self, node_name):
         super().__init__(node_name)
+        self.flag = False
 
     def subscribe(self, topic_name):
         self.topic_name = topic_name
@@ -21,7 +22,7 @@ class subscriber(Node):
 
         print(self.topic_name[8:], val)
         self.destroy_subscription(self.subscription)
-        return True
+        self.flag = not self.flag
 
 
 def main(args=None):
@@ -34,9 +35,11 @@ def main(args=None):
 
     for topic in sensor_topics:
         print(topic)
-        result = sub.subscribe(topic)
-        while not result:
-            result = sub.subscribe(topic)
+        last_flag = sub.flag
+        sub.subscribe(topic)
+        while last_flag == sub.flag:
+            pass
+
 
 if __name__ == '__main__':
     main()
