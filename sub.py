@@ -10,7 +10,7 @@ class subscriber(Node):
 
     def subscribe(self, topic_name):
         self.topic_name = topic_name
-        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 1)
+        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
@@ -36,9 +36,10 @@ def main(args=None):
     for topic in sensor_topics:
         print(topic)
         last_flag = sub.flag
+        new_flag = sub.flag
         sub.subscribe(topic)
-        while last_flag == sub.flag:
-            pass
+        while last_flag == new_flag:
+            new_flag = sub.flag
 
 
 if __name__ == '__main__':
