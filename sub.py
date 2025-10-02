@@ -6,7 +6,6 @@ from std_msgs.msg import Int32
 class subscriber(Node):
     def __init__(self, node_name):
         super().__init__(node_name)
-        self.flag = False
 
     def subscribe(self, topic_name):
         self.flag = False
@@ -22,24 +21,21 @@ class subscriber(Node):
             val = "ERROR"
 
         print(self.topic_name[8:], val)
-        self.destroy_subscription(self.subscription)
-        self.flag = True
+        rclpy.shutdown()
 
 
 def main(args=None):
     rclpy.init(args=None)
-    sub = subscriber("subs")
+    node = Node()
     
-    topic_list = sub.get_topic_names_and_types()
+    topic_list = node.get_topic_names_and_types()
     sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
-    sub.topics = len(sensor_topics)
+    node.topics = len(sensor_topics)
 
     for topic in sensor_topics:
         print(topic)
-        last_flag = sub.flag
+        sub = subscriber("subscribeeer")
         sub.subscribe(topic)
-        while last_flag == sub.flag:
-            pass
 
 
 if __name__ == '__main__':
