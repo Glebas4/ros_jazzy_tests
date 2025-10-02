@@ -8,14 +8,20 @@ class subscriber(Node):
         super().__init__(node_name)
 
     def subscribe(self, topic_name):
-        msg = rclpy.wait_for_message(topic_name, Int32, timeout_sec=0.2)
-        val = msg.data
+        self.msg = False
+        self.topic_name = topic_name
+        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        self.msg = msg.data
         if -1000 <= val and val <= 1000:
             val = val
         else:
             val = "ERROR"
 
         print(self.topic_name[8:], val)
+        rclpy.shutdown()
 
 
 def main(args=None):
@@ -29,6 +35,8 @@ def main(args=None):
     for topic in sensor_topics:
         print(topic)
         sub.subscribe(topic)
+        while sub.msg:
+            pass
 
 
 if __name__ == '__main__':
