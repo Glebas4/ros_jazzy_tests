@@ -28,7 +28,6 @@ def main(args=None):
 
     for topic in sensor_topics:
         print(topic)
-        sub = subscriber("subscribeeer")
         sub.subscribe(topic)
 
 
