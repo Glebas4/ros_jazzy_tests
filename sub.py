@@ -8,12 +8,7 @@ class subscriber(Node):
         super().__init__(node_name)
 
     def subscribe(self, topic_name):
-        self.flag = False
-        self.topic_name = topic_name
-        self.subscription = self.create_subscription(Int32, self.topic_name, self.listener_callback, 10)
-        self.subscription  # prevent unused variable warning
-
-    def listener_callback(self, msg):
+        msg = rclpy.wait_for_message(topic_name, Int32, timeout_sec=0.2)
         val = msg.data
         if -1000 <= val and val <= 1000:
             val = val
@@ -21,16 +16,15 @@ class subscriber(Node):
             val = "ERROR"
 
         print(self.topic_name[8:], val)
-        rclpy.shutdown()
 
 
 def main(args=None):
     rclpy.init(args=None)
-    node = Node()
+    sub = subscriber("subs")
     
-    topic_list = node.get_topic_names_and_types()
+    topic_list = sub.get_topic_names_and_types()
     sensor_topics = [topic for topic, types in topic_list if topic.startswith('/sensor/')]
-    node.topics = len(sensor_topics)
+    sub.topics = len(sensor_topics)
 
     for topic in sensor_topics:
         print(topic)
