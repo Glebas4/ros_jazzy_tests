@@ -6,6 +6,7 @@ from std_msgs.msg import Int32
 class subscriber(Node):
     def __init__(self, node_name):
         super().__init__(node_name)
+        self.flag = False
 
     def subscribe(self, topic_name):
         self.flag = False
