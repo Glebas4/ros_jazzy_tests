@@ -61,7 +61,6 @@ def main(args=None):
             cy = coords[num][1]
             num+=1
             navigate_wait(x=cx, y=cy, z=1.7)
-            
         else:
             z -= 0.05
             set_position(x=0, y=0, z=z, frame_id='aruco_157')
