@@ -1,4 +1,4 @@
-import rospy
+import rospy  # type: ignore
 from clover import srv 
 from std_srvs.srv import Trigger
 from aruco_pose.msg import MarkerArray
@@ -13,7 +13,7 @@ set_position = rospy.ServiceProxy('set_position', srv.SetPosition)
 land = rospy.ServiceProxy('land', Trigger)
 arming = rospy.ServiceProxy('mavros/cmd/arming', CommandBool)
 
-z = 1.5
+z = 1.8
 kx = 1
 ky = 0.5
 num = 0
@@ -63,7 +63,7 @@ def main():
             num+=1
             if num == 3:
                 num = 0
-            navigate_wait(x=cx, y=cy, z=1.8)
+            navigate_wait(x=cx, y=cy, z=z)
         else:
             z -= 0.05
             set_position(x=0, y=0, z=z, frame_id='aruco_157')
