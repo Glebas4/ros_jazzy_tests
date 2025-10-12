@@ -66,7 +66,7 @@ def main():
             navigate_wait(x=cx, y=cy, z=z)
         else:
             z -= 0.05
-            set_position(x=0, y=0, z=z, frame_id='aruco_157')
+            set_position(x=0, y=0.1, z=z, frame_id='aruco_157')
             rospy.sleep(0.1)
     arming(False)
     print("Done")
