@@ -1,0 +1,111 @@
+<html>
+
+<head>
+  <title>Clover stream</title>
+ </head>
+
+ <body>
+ <div style="width:1024px;"><iframe src="http://192.168.11.1:8080/stream_viewer?topic=/objects" width="500" height="500"></iframe>
+     <iframe src="http://192.168.11.1:8080/stream_viewer?topic=/Jet"  width="350" height="500"></iframe>
+ </div>
+ <iframe src="http://192.168.11.1/clover/topics.html?topic=/percent"></iframe>
+ <iframe src="http://192.168.11.1/clover/topics.html?topic=/bat_voltage"></iframe>
+  <form  method="POST">
+       <input type="button" id="s"  class="btn btn-dark" value="START">
+       <input type="button" id="l"  class="btn btn-dark" value="LAND">
+       <input type="button" id="k"  class="btn btn-dark" value="KILL">
+       <input type="button" id="h"  class="btn btn-dark" value="HOME">
+       <input type="button" id="st"  class="btn btn-dark" value="STOP">
+</form>
+<meta charset="utf-8" />
+<script src="js/roslib.js"></script>
+    <script type="text/javascript">
+
+    var ros = new ROSLIB.Ros({ url: 'ws://' + location.hostname + ':9090' });
+    ros.on('connection', function() {console.log('Connected to websocket server.');});
+    ros.on('error', function(error) {console.log('Error connecting to websocket server: ', error);});
+    ros.on('close', function() {console.log('Connection to websocket server closed.');});
+
+
+    var msg = new ROSLIB.Message({data: 2});
+    var one_msg = new ROSLIB.Message({data: 1});
+    var state = 0;
+
+
+    var lnd = new ROSLIB.Service
+    ({
+      ros : ros,
+      name : '/land',
+      serviceType : 'std_srvs/Trigger'
+    });
+
+    var data = new ROSLIB.Topic  //Взлет
+    ({
+        ros : ros,
+        name : 'DATA_INT',
+        messageType : 'std_msgs/Int16'
+    });
+
+
+    var disarm = new ROSLIB.Topic //Kill
+    ({
+        ros : ros,
+        name : 'DISARM',
+        messageType : 'std_msgs/Int16'
+    });
+
+
+    var stop_topic = new ROSLIB.Topic //Stop
+    ({
+        ros : ros,
+        name : 'STOP',
+        messageType : 'std_msgs/Int16'
+    });
+
+
+    var home_topic = new ROSLIB.Topic
+    ({
+        ros : ros,
+        name : 'HOME',
+        messageType : 'std_msgs/Int16'
+    });
+
+
+    const s = document.getElementById("s");
+    s.addEventListener("click", start); 
+    function start()
+        {
+            data.subscribe(function(message)
+                {
+                  console.log(message.data);
+                  state = message.data ;
+                })
+
+            if (state === 2) {console.log('Declined')}
+            else{data.publish(msg)}
+        }
+
+
+    const l = document.getElementById("l"); //Вызов сервиса посадки
+    l.addEventListener("click", posadka);
+    function posadka(){lnd.callService();}
+    
+
+    const k = document.getElementById("k");
+    k.addEventListener("click", kill);
+    function kill(){disarm.publish(one_msg)}
+
+
+    const h = document.getElementById("h");
+    h.addEventListener("click", home);
+    function home(){home_topic.publish(one_msg)}
+
+
+    const stp = document.getElementById("st");
+    stp.addEventListener("click", stop);
+    function stop(){stop_topic.publish(one_msg)}
+
+
+ </script>
+ </body>
+</html>
